@@ -19,6 +19,6 @@ class AdminMiddleware
         if (auth()->check() && auth()->user()->is_admin) {
             return $next($request);
         }
-        return redirect('/home');
+        return redirect('/home')->with('error', 'You do not have admin access.');
     }
 }

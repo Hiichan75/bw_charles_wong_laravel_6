@@ -9,37 +9,48 @@ use App\Models\ForumReply;
 class ForumController extends Controller
 {
     public function index()
-{
-    $posts = ForumPost::with('replies')->get();
-    return view('forum.index', compact('posts'));
-}
+    {
+        $posts = ForumPost::with('replies.user')->get(); // Load replies with user details
+        return view('forum.index', compact('posts'));
+    }
 
-public function create()
-{
-    return view('forum.create');
-}
+    public function create()
+    {
+        return view('forum.create');
+    }
 
-public function store(Request $request)
-{
-    $post = new ForumPost($request->all());
-    $post->user_id = auth()->id();
-    $post->save();
-    return redirect()->route('forum.index');
-}
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-public function show($id)
-{
-    $post = ForumPost::with('replies')->findOrFail($id);
-    return view('forum.show', compact('post'));
-}
+        $post = new ForumPost($request->only('title', 'content'));
+        $post->user_id = auth()->id(); // or Auth::id() if you have 'use Auth' at the top
+        $post->save();
 
-public function storeReply(Request $request, $postId)
-{
-    $reply = new ForumReply($request->all());
-    $reply->post_id = $postId;
-    $reply->user_id = auth()->id();
-    $reply->save();
-    return redirect()->route('forum.show', $postId);
-}
+        return redirect()->route('forum.index')->with('success', 'Post created successfully!');
+    }
 
+    public function show($id)
+    {
+        $post = ForumPost::with('replies')->findOrFail($id);
+        return view('forum.show', compact('post'));
+    }
+
+    public function storeReply(Request $request, $postId)
+    {
+        $validated = $request->validate([
+            'reply' => 'required|string|max:255',
+        ]);
+
+        ForumReply::create([
+            'content' => $validated['reply'],
+            'forum_post_id' => $postId,
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('forum.index')->with('success', 'Reply added successfully!');
+    }
 }

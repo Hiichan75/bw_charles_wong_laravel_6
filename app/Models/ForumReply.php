@@ -9,13 +9,19 @@ class ForumReply extends Model
 {
     use HasFactory;
 
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    protected $fillable = [
+        'content',
+        'forum_post_id',
+        'user_id',
+    ];
 
-public function post()
-{
-    return $this->belongsTo(ForumPost::class);
-}
+    public function post()
+    {
+        return $this->belongsTo(ForumPost::class, 'forum_post_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

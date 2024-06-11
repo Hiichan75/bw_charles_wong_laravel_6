@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('news.create') }}" class="btn btn-primary">Create News</a>
     @foreach($news as $newsItem)
         <div>
             <h2>{{ $newsItem->title }}</h2>

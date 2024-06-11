@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('faq.create') }}" class="btn btn-primary">Add FAQ</a>
+    
     @foreach($categories as $category)
         <div>
             <h2>{{ $category->name }}</h2>

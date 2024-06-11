@@ -9,6 +9,12 @@ class ForumPost extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title', // Add other attributes that should be mass assignable
+        'content',
+        'user_id'
+    ];
+
     public function user()
 {
     return $this->belongsTo(User::class);
@@ -16,6 +22,6 @@ class ForumPost extends Model
 
 public function replies()
 {
-    return $this->hasMany(ForumReply::class);
+    return $this->hasMany(ForumReply::class, 'forum_post_id');
 }
 }
