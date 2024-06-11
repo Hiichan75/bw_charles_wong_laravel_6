@@ -9,43 +9,56 @@ use App\Models\FAQCategory;
 class FAQController extends Controller
 {
     public function index()
-{
-    $categories = FAQCategory::with('faqs')->get();
-    return view('faq.index', compact('categories'));
-}
+    {
+        $categories = FAQCategory::with('faqs')->get();
+        return view('faq.index', compact('categories'));
+    }
 
-public function create()
-{
-    $categories = FAQCategory::all();
-    return view('faq.create', compact('categories'));
-}
+    public function create()
+    {
+        $categories = FAQCategory::all();
+        return view('faq.create', compact('categories'));
+    }
 
-public function store(Request $request)
-{
-    $faq = new FAQ($request->all());
-    $faq->user_id = auth()->id();
-    $faq->save();
-    return redirect()->route('faq.index');
-}
+    public function store(Request $request)
+    {
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'category_id' => 'required|exists:f_a_q_categories,id',
+        ]);
 
-public function edit($id)
-{
-    $faq = FAQ::findOrFail($id);
-    $categories = FAQCategory::all();
-    return view('faq.edit', compact('faq', 'categories'));
-}
+        $faq = new FAQ($request->only(['question', 'answer', 'category_id']));
+        $faq->user_id = auth()->id();
+        $faq->save();
 
-public function update(Request $request, $id)
-{
-    $faq = FAQ::findOrFail($id);
-    $faq->update($request->all());
-    return redirect()->route('faq.index');
-}
+        return redirect()->route('faq.index');
+    }
 
-public function destroy($id)
-{
-    FAQ::destroy($id);
-    return redirect()->route('faq.index');
-}
+    public function edit($id)
+    {
+        $faq = FAQ::findOrFail($id);
+        $categories = FAQCategory::all();
+        return view('faq.edit', compact('faq', 'categories'));
+    }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'category_id' => 'required|exists:f_a_q_categories,id',
+        ]);
+
+        $faq = FAQ::findOrFail($id);
+        $faq->update($request->only(['question', 'answer', 'category_id']));
+
+        return redirect()->route('faq.index');
+    }
+
+    public function destroy($id)
+    {
+        FAQ::destroy($id);
+        return redirect()->route('faq.index');
+    }
 }

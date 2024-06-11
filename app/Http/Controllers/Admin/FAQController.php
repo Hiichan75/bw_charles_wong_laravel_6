@@ -23,9 +23,17 @@ class FAQController extends Controller
 
     public function store(Request $request)
     {
-        $faq = new FAQ($request->all());
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'category_id' => 'required|exists:f_a_q_categories,id', // Update the validation rule
+        ]);
+
+        $faq = new FAQ($request->only(['question', 'answer', 'category_id']));
+        $faq->user_id = auth()->id(); // Set the user_id to the authenticated user's ID
         $faq->save();
-        return redirect()->route('admin.faq.index');
+
+        return redirect()->route('admin.faq.index')->with('success', 'FAQ created successfully!');
     }
 
     public function edit($id)
@@ -37,15 +45,21 @@ class FAQController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'category_id' => 'required|exists:f_a_q_categories,id', // Update the validation rule
+        ]);
+
         $faq = FAQ::findOrFail($id);
-        $faq->update($request->all());
-        return redirect()->route('admin.faq.index');
+        $faq->update($request->only(['question', 'answer', 'category_id']));
+
+        return redirect()->route('admin.faq.index')->with('success', 'FAQ updated successfully!');
     }
 
     public function destroy($id)
     {
         FAQ::destroy($id);
-        return redirect()->route('admin.faq.index');
+        return redirect()->route('admin.faq.index')->with('success', 'FAQ deleted successfully!');
     }
 }
-

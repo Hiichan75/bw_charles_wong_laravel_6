@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-md-6">
             <h1>Manage FAQs</h1>
         </div>
-        <div class="col-md-6 text-right">
-            <a href="{{ route('admin.faq.create') }}" class="btn btn-primary">Add FAQ</a>
-            <a href="{{ route('admin.faq_categories.create') }}" class="btn btn-secondary">Add Category</a>
+        <div class="col-md-6 d-flex justify-content-end">
+            <a href="{{ route('admin.faq.create') }}" class="btn btn-primary mb-3 mr-2">Add FAQ</a>
+            <a href="{{ route('admin.faq_categories.create') }}" class="btn btn-secondary mb-3">Add Category</a>
         </div>
     </div>
-    <table class="table table-bordered mt-4">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Question</th>

@@ -28,6 +28,9 @@
                     <a class="nav-link" href="{{ route('admin.faq.index') }}">Manage FAQ</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.faq_categories.index') }}">Manage FAQ Categories</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.contact.index') }}">Manage Contacts</a>
                 </li>
                 <li class="nav-item">
