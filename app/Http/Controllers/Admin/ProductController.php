@@ -75,4 +75,10 @@ class ProductController extends Controller
         Product::destroy($id);
         return redirect()->route('admin.product.index')->with('success', 'Product deleted successfully!');
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin'); // Apply admin middleware to all actions
+    }
 }

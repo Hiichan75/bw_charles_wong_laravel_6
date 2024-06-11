@@ -62,4 +62,10 @@ class FAQController extends Controller
         FAQ::destroy($id);
         return redirect()->route('admin.faq.index')->with('success', 'FAQ deleted successfully!');
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin'); // Apply admin middleware to all actions
+    }
 }

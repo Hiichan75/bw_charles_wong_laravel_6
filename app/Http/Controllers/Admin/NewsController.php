@@ -80,4 +80,10 @@ class NewsController extends Controller
         News::destroy($id);
         return redirect()->route('admin.news.index')->with('success', 'News deleted successfully!');
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin'); // Apply admin middleware to all actions
+    }
 }

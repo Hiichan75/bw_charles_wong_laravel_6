@@ -15,14 +15,16 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ $product->description }}</p>
-                        <p class="card-text"><strong>Price:</strong> {{ $product->formatted_price }}</p> <!-- Correctly display the price -->
+                        <p class="card-text"><strong>Price:</strong> {{ $product->formatted_price }}</p>
                         <a href="{{ route('order.create', ['product_id' => $product->id]) }}" class="btn btn-success">Order</a>
-                        <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-secondary">Edit</a>
-                        <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        @if (Auth::check() && Auth::user()->is_admin)
+                            <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-secondary">Edit</a>
+                            <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
