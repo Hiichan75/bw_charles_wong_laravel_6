@@ -2,22 +2,32 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('product.create') }}" class="btn btn-primary">Add Product</a>
-    @foreach($products as $product)
-        <div>
-            <h2><a href="{{ route('product.show', $product->id) }}">{{ $product->name }}</a></h2>
-            <p>{{ $product->description }}</p>
-            <p>Price: €{{ $product->price }}</p>
-            @if ($product->image)
-                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" style="width: 150px; height: 150px;">
-            @endif
-            <a href="{{ route('product.edit', $product->id) }}" class="btn btn-secondary">Edit</a>
-            <form action="{{ route('product.destroy', $product->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-        </div>
-    @endforeach
+    <h1>Products</h1>
+    <a href="{{ route('admin.product.create') }}" class="btn btn-primary mb-3">Add Product</a>
+    <div class="row">
+        @foreach ($products as $product)
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    @if ($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                    @else
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="No Image">
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $product->name }}</h5>
+                        <p class="card-text">{{ $product->description }}</p>
+                        <p class="card-text"><strong>Price:</strong> {{ $product->formatted_price }}</p> <!-- Correctly display the price -->
+                        <a href="{{ route('order.create', ['product_id' => $product->id]) }}" class="btn btn-success">Order</a>
+                        <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-secondary">Edit</a>
+                        <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection

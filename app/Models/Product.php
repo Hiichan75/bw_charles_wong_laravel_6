@@ -23,4 +23,10 @@ class Product extends Model
     return $this->hasMany(Order::class);
 }
 
+public function getFormattedPriceAttribute()
+{
+    return '€' . number_format($this->price, 2, ',', '.');
+}
+
+
 }

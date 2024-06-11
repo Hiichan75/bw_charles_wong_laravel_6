@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -71,4 +72,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
     Route::resource('faq_categories', App\Http\Controllers\Admin\FAQCategoryController::class);
     Route::resource('contact', App\Http\Controllers\Admin\ContactController::class);
     Route::resource('product', App\Http\Controllers\Admin\ProductController::class);
+});
+
+// Public order routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+});
+
+
+// Admin order routes
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+    Route::patch('/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
 });
