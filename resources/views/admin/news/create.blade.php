@@ -17,10 +17,10 @@
             <label for="cover_image">Cover Image</label>
             <input type="file" name="cover_image" class="form-control">
         </div>
-        <div class="form-group">
+        <!--  <div class="form-group">
             <label for="published_at">Published At</label>
             <input type="date" name="published_at" class="form-control" required>
-        </div>
+        </div> -->
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </div>
