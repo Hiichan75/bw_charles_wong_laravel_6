@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <table class="table">
+    <h1>Contact Messages</h1>
+    <table class="table table-bordered mt-4">
         <thead>
             <tr>
                 <th>Name</th>
@@ -12,15 +13,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($contacts as $contact)
-            <tr>
-                <td>{{ $contact->name }}</td>
-                <td>{{ $contact->email }}</td>
-                <td>{{ $contact->message }}</td>
-                <td>
-                    <a href="{{ route('admin.contact.show', $contact->id) }}" class="btn btn-secondary">View</a>
-                </td>
-            </tr>
+            @foreach ($contacts as $contact)
+                <tr>
+                    <td>{{ $contact->name }}</td>
+                    <td>{{ $contact->email }}</td>
+                    <td>{{ $contact->message }}</td>
+                    <td>
+                        <a href="{{ route('admin.contact.show', $contact->id) }}" class="btn btn-primary btn-sm">View</a>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>

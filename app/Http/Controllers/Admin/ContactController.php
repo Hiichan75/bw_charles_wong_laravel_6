@@ -22,8 +22,16 @@ class ContactController extends Controller
 
     public function reply(Request $request, $id)
     {
+        // Validate the request
+        $request->validate([
+            'reply' => 'required|string',
+        ]);
+
         $contact = ContactForm::findOrFail($id);
-        // Here you can add the logic to send a reply via email
-        return redirect()->route('admin.contact.index')->with('success', 'Reply sent successfully!');
+        $contact->reply = $request->reply;
+        $contact->save();
+
+        // Here you can add the logic to send a reply via email if needed
+        return redirect()->route('admin.contact.index')->with('success', 'Reply saved successfully!');
     }
 }

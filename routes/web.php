@@ -10,6 +10,8 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -47,9 +49,13 @@ Route::resource('news', NewsController::class);
 // FAQ routes
 Route::resource('faq', FAQController::class);
 
-// Contact routes
-Route::get('contact', [ContactController::class, 'show'])->name('contact.form');
-Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
+// User-facing contact form routes
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.form');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// User contact messages
+Route::get('/my-messages', [ContactController::class, 'userMessages'])->name('contact.user_messages')->middleware('auth');
+
 
 // Forum routes
 Route::resource('forum', ForumController::class);
@@ -80,8 +86,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
     Route::get('/orderdetails/{id}', [OrderController::class, 'show'])->name('order.details');
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
-
-        
         
 });
     
@@ -92,4 +96,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
     Route::patch('/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
+});
+
+// Admin contact management routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/contacts', [AdminContactController::class, 'index'])->name('contact.index');
+    Route::get('/contact/{id}', [AdminContactController::class, 'show'])->name('contact.show');
+    Route::post('/contact/reply/{id}', [AdminContactController::class, 'reply'])->name('contact.reply');
 });

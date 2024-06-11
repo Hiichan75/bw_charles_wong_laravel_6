@@ -38,6 +38,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('order.index') }}">Orders</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('contact.user_messages') }}">My Messages</a>
+                </li>
+
             </ul>
             <ul class="navbar-nav">
                 @guest

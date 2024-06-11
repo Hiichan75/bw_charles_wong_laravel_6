@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->text('message');
+            $table->text('reply')->nullable(); // Add a reply column
 
         });
     }
@@ -30,6 +31,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact_forms');
+        Schema::table('contact_forms', function (Blueprint $table) {
+            $table->dropColumn('reply'); // Drop the reply column if rolling back
+        });
     }
 };

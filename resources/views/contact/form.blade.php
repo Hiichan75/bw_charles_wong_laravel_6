@@ -2,24 +2,20 @@
 
 @section('content')
 <div class="container">
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    <h1>Contact Us</h1>
     <form action="{{ route('contact.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" name="name" class="form-control">
+            <input type="text" name="name" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" class="form-control">
+            <input type="email" name="email" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="message">Message</label>
-            <textarea name="message" class="form-control"></textarea>
+            <textarea name="message" class="form-control" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Send Message</button>
     </form>

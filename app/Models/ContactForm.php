@@ -13,5 +13,6 @@ class ContactForm extends Model
         'name',
         'email',
         'message',
+        'reply', // Add reply to fillable fields
     ];
 }
