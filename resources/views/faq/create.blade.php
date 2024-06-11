@@ -1,12 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container">
-    <form action="{{ route('faq.store') }}" method="POST">
+    <h1>Create FAQ</h1>
+    <form action="{{ route('admin.faq.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="question">Question</label>
-            <input type="text" name="question" class="form-control">
+            <input type="text" name="question" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="answer">Answer</label>
@@ -14,11 +15,12 @@
         </div>
         <div class="form-group">
             <label for="category_id">Category</label>
-            <select name="category_id" class="form-control">
+            <select name="category_id" class="form-control" required>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
+            <a href="{{ route('admin.faq_categories.create') }}" class="btn btn-link">Add New Category</a>
         </div>
         <button type="submit" class="btn btn-primary">Add FAQ</button>
     </form>

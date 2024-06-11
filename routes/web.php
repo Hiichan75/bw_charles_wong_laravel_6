@@ -68,7 +68,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
     Route::resource('faq', App\Http\Controllers\Admin\FAQController::class);
+    Route::resource('faq_categories', App\Http\Controllers\Admin\FAQCategoryController::class);
     Route::resource('contact', App\Http\Controllers\Admin\ContactController::class);
     Route::resource('product', App\Http\Controllers\Admin\ProductController::class);
 });
-
