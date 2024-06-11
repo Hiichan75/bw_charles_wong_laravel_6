@@ -2,8 +2,15 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('admin.product.create') }}" class="btn btn-primary">Add Product</a>
-    <table class="table">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h1>Manage Products</h1>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <a href="{{ route('admin.product.create') }}" class="btn btn-primary mb-3">Add Product</a>
+        </div>
+    </div>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Name</th>

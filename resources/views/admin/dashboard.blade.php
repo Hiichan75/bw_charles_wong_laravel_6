@@ -2,12 +2,9 @@
 
 @section('content')
 <div class="container">
+    <h1>Admin Dashboard</h1>
     <div class="row">
-        <div class="col-md-12">
-            <h1 class="display-4">Admin Dashboard</h1>
-        </div>
-    </div>
-    <div class="row mt-4">
+        <!-- Manage News -->
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
@@ -17,6 +14,7 @@
                 </div>
             </div>
         </div>
+        <!-- Manage FAQ -->
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
@@ -26,6 +24,7 @@
                 </div>
             </div>
         </div>
+        <!-- Manage Contacts -->
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
@@ -35,12 +34,33 @@
                 </div>
             </div>
         </div>
+        <!-- Manage Products -->
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Products</h5>
                     <p class="card-text">Add, edit, and delete products.</p>
                     <a href="{{ route('admin.product.index') }}" class="btn btn-primary">Go to Products</a>
+                </div>
+            </div>
+        </div>
+        <!-- Manage Orders -->
+        <div class="col-md-3 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Orders</h5>
+                    <p class="card-text">View, update, and manage orders.</p>
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-primary">Go to Orders</a>
+                </div>
+            </div>
+        </div>
+        <!-- Manage Forum Posts -->
+        <div class="col-md-3 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Forum Posts</h5>
+                    <p class="card-text">Edit, delete, and manage forum posts and replies.</p>
+                    <a href="{{ route('admin.forum.index') }}" class="btn btn-primary">Go to Forum Posts</a>
                 </div>
             </div>
         </div>
