@@ -15,7 +15,7 @@ class OrderController extends Controller
         $products = Product::all();
         return view('order.create', compact('products'));
     }
-
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -28,23 +28,23 @@ class OrderController extends Controller
             'product_ids.*' => 'exists:products,id',
             'quantities.*' => 'integer|min:1',
         ]);
-
+    
         $totalPrice = 0;
         $orderItems = [];
-
+    
         foreach ($request->product_ids as $key => $productId) {
             $product = Product::find($productId);
             $quantity = $request->quantities[$key];
-
+    
             $orderItems[] = [
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $product->price,
             ];
-
+    
             $totalPrice += $product->price * $quantity;
         }
-
+    
         $order = Order::create([
             'user_id' => Auth::id(),
             'first_name' => $request->first_name,
@@ -54,19 +54,24 @@ class OrderController extends Controller
             'total_price' => $totalPrice,
             'status' => 'pending',
         ]);
-
+    
         foreach ($orderItems as $item) {
             $item['order_id'] = $order->id;
             OrderItem::create($item);
         }
-
-        return redirect()->route('order.show', $order->id)->with('success', 'Order placed successfully!');
+    
+        return redirect()->route('order.details', $order->id)->with('success', 'Order placed successfully!');
     }
 
     public function show($id)
     {
-        $order = Order::with('items.product')->findOrFail($id);
-        return view('order.show', compact('order'));
+        // Ensure the order belongs to the authenticated user
+        $order = Order::where('id', $id)
+            ->where('user_id', Auth::id()) // Ensures only the owner can view the order
+            ->with('items.product')
+            ->firstOrFail();
+
+        return view('order.details', compact('order'));
     }
 
     public function index()
@@ -75,6 +80,3 @@ class OrderController extends Controller
         return view('order.index', compact('orders'));
     }
 }
-
-
-

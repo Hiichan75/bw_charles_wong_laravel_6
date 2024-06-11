@@ -78,10 +78,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
 Route::middleware(['auth'])->group(function () {
     Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
     Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
-    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/orderdetails/{id}', [OrderController::class, 'show'])->name('order.details');
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
-});
 
+        
+        
+});
+    
+    
 
 // Admin order routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
