@@ -41,7 +41,11 @@ Route::get('/about', function () {
 })->name('about');
 
 // Profile routes
-Route::resource('profile', ProfileController::class)->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+});
 
 // News routes
 Route::resource('news', NewsController::class);

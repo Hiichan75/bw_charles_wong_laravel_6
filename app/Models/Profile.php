@@ -9,9 +9,15 @@ class Profile extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'username', 'birthday', 'avatar', 'about_me'];
+
+    // Cast birthday to date
+    protected $casts = [
+        'birthday' => 'date',
+    ];
+
     public function user()
-{
-    return $this->belongsTo(User::class);
-}
-    
+    {
+        return $this->belongsTo(User::class);
+    }
 }
