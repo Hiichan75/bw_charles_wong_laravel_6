@@ -16,7 +16,7 @@
             @foreach($products as $product)
             <tr>
                 <td>{{ $product->name }}</td>
-                <td>${{ $product->price }}</td>
+                <td>€{{ $product->price }}</td>
                 <td>{{ $product->description }}</td>
                 <td>
                     <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-secondary">Edit</a>

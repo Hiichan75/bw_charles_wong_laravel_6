@@ -7,7 +7,7 @@
         <div>
             <h2><a href="{{ route('product.show', $product->id) }}">{{ $product->name }}</a></h2>
             <p>{{ $product->description }}</p>
-            <p>Price: ${{ $product->price }}</p>
+            <p>Price: €{{ $product->price }}</p>
             @if ($product->image)
                 <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" style="width: 150px; height: 150px;">
             @endif
