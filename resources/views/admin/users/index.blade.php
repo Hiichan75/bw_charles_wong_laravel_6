@@ -1,0 +1,46 @@
+@extends('layouts.app')
+
+@section('title', 'Manage Users')
+
+@section('content')
+<div class="container">
+    <h1>Manage Users</h1>
+    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">Create New User</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Admin Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($users as $user)
+            <tr>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    <form action="{{ route('admin.users.updateAdminStatus', $user->id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <select name="is_admin" onchange="this.form.submit()">
+                            <option value="no" {{ !$user->is_admin ? 'selected' : '' }}>No</option>
+                            <option value="yes" {{ $user->is_admin ? 'selected' : '' }}>Yes</option>
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection

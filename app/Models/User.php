@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    
     use HasApiTokens, HasFactory, Notifiable;
 
     public function profile()
@@ -32,6 +34,7 @@ public function news()
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**

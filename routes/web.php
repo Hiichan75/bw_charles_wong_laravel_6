@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\UserController;
 
 use App\Http\Controllers\DashboardController;
 
@@ -84,11 +85,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    // User management routes
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+
+    // Other admin routes
     Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
     Route::resource('faq', App\Http\Controllers\Admin\FAQController::class);
     Route::resource('faq_categories', App\Http\Controllers\Admin\FAQCategoryController::class);
     Route::resource('contact', App\Http\Controllers\Admin\ContactController::class);
     Route::resource('product', App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+    Route::resource('forum', App\Http\Controllers\Admin\ForumController::class);
 });
 
 // Public order routes
@@ -130,5 +138,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/forum', [App\Http\Controllers\Admin\ForumController::class, 'index'])->name('admin.forum.index');
     // other admin routes
+});
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::post('/users/create', [UserController::class, 'store'])->name('admin.users.store');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+    Route::patch('users/{id}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+    Route::patch('users/{id}/updateAdminStatus', [App\Http\Controllers\Admin\UserController::class, 'updateAdminStatus'])->name('users.updateAdminStatus');
+    Route::get('users/{id}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
+    Route::delete('users/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('users/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('users.create');
+    Route::post('users', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
 });
 
