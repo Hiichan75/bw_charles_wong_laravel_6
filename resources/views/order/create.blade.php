@@ -9,15 +9,16 @@
             <label for="product">Product</label>
             @foreach ($products as $productItem)
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="product_ids[]" value="{{ $productItem->id }}"
-                           @if (isset($product) && $product->id == $productItem->id) checked @endif>
-                    <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="product_id" value="{{ $productItem->id }}" id="product{{ $productItem->id }}" onchange="updateQuantityInput(this.value)">
+                    <label class="form-check-label" for="product{{ $productItem->id }}">
                         {{ $productItem->name }} ({{ $productItem->formatted_price }})
                     </label>
-                    <input class="form-control mt-2" type="number" name="quantities[]" min="1" placeholder="Quantity"
-                           @if (isset($product) && $product->id == $productItem->id) value="1" @endif>
                 </div>
             @endforeach
+            <div class="mt-2" id="quantityContainer" style="display: none;">
+                <label for="quantity">Quantity</label>
+                <input class="form-control" type="number" id="quantity" name="quantity" min="1" placeholder="Quantity">
+            </div>
         </div>
         <hr>
         <h2>User Information</h2>
@@ -40,4 +41,12 @@
         <button type="submit" class="btn btn-primary mt-3">Place Order</button>
     </form>
 </div>
+
+<script>
+    function updateQuantityInput(productId) {
+        const quantityContainer = document.getElementById('quantityContainer');
+        quantityContainer.style.display = 'block';
+        quantityContainer.querySelector('input').value = 1;
+    }
+</script>
 @endsection

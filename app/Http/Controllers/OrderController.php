@@ -23,27 +23,12 @@ class OrderController extends Controller
             'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'country' => 'required|string|max:255',
-            'product_ids' => 'required|array',
-            'quantities' => 'required|array',
-            'product_ids.*' => 'exists:products,id',
-            'quantities.*' => 'integer|min:1',
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
         ]);
     
-        $totalPrice = 0;
-        $orderItems = [];
-    
-        foreach ($request->product_ids as $key => $productId) {
-            $product = Product::find($productId);
-            $quantity = $request->quantities[$key];
-    
-            $orderItems[] = [
-                'product_id' => $productId,
-                'quantity' => $quantity,
-                'price' => $product->price,
-            ];
-    
-            $totalPrice += $product->price * $quantity;
-        }
+        $product = Product::find($request->product_id);
+        $totalPrice = $product->price * $request->quantity;
     
         $order = Order::create([
             'user_id' => Auth::id(),
@@ -55,19 +40,20 @@ class OrderController extends Controller
             'status' => 'pending',
         ]);
     
-        foreach ($orderItems as $item) {
-            $item['order_id'] = $order->id;
-            OrderItem::create($item);
-        }
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $request->product_id,
+            'quantity' => $request->quantity,
+            'price' => $product->price,
+        ]);
     
         return redirect()->route('order.details', $order->id)->with('success', 'Order placed successfully!');
     }
 
     public function show($id)
     {
-        // Ensure the order belongs to the authenticated user
         $order = Order::where('id', $id)
-            ->where('user_id', Auth::id()) // Ensures only the owner can view the order
+            ->where('user_id', Auth::id())
             ->with('items.product')
             ->firstOrFail();
 
