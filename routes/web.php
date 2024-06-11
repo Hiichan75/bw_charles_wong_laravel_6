@@ -21,13 +21,21 @@ use App\Http\Controllers\DashboardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Redirect root to login if not authenticated
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+    if (Auth::check()) {
+        return view('welcome'); // Change 'welcome' to your authenticated user home page
+    }
+    return redirect('/login');
+});
 
-// Authentication routes
+// Include other routes
 Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 // Profile routes
 Route::resource('profile', ProfileController::class)->middleware('auth');
