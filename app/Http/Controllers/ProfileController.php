@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    // Show profile
     public function show($id)
     {
         // Retrieve the user's profile or create it if it doesn't exist
@@ -23,7 +23,6 @@ class ProfileController extends Controller
         return view('profile.show', compact('profile'));
     }
 
-    // Edit profile
     public function edit($id)
     {
         // Retrieve the user's profile or create it if it doesn't exist
@@ -38,12 +37,11 @@ class ProfileController extends Controller
         return view('profile.edit', compact('profile'));
     }
 
-    // Update profile
     public function update(Request $request, $id)
     {
         // Validate the request data
         $request->validate([
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,name,' . $id,
             'birthday' => 'nullable|date',
             'about_me' => 'nullable|string',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -51,6 +49,9 @@ class ProfileController extends Controller
 
         // Retrieve the profile or fail if it doesn't exist
         $profile = Profile::where('user_id', $id)->firstOrFail();
+
+        // Retrieve the user or fail if it doesn't exist
+        $user = User::findOrFail($id);
 
         // Handle avatar upload
         if ($request->hasFile('avatar')) {
@@ -64,6 +65,11 @@ class ProfileController extends Controller
             'birthday' => $request->birthday,
             'about_me' => $request->about_me,
             'avatar' => $profile->avatar
+        ]);
+
+        // Update the user's name
+        $user->update([
+            'name' => $request->username
         ]);
 
         // Redirect back to the profile show page with a success message
