@@ -69,9 +69,9 @@
         <div class="col-md-3 mt-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Forum Posts</h5>
-                    <p class="card-text">Edit, delete, and manage forum posts and replies.</p>
-                    <a href="{{ route('admin.users.index') }}" class="btn btn-primary">Go to Forum Posts</a>
+                    <h5 class="card-title">Manage Users</h5>
+                    <p class="card-text">Edit, delete, and manage users.</p>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-primary mb-3">Go to Users</a>
                 </div>
             </div>
         </div>

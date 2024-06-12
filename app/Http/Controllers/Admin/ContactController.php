@@ -34,4 +34,12 @@ class ContactController extends Controller
         // Here you can add the logic to send a reply via email if needed
         return redirect()->route('admin.contact.index')->with('success', 'Reply saved successfully!');
     }
+
+    public function destroy($id)
+    {
+        $contact = ContactForm::findOrFail($id);
+        $contact->delete();
+
+        return redirect()->route('admin.contact.index')->with('success', 'Contact deleted successfully!');
+    }
 }
