@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             OrdersTableSeeder::class,
             ForumPostsTableSeeder::class,
             ContactMessagesTableSeeder::class,
+            FAQTableSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 
