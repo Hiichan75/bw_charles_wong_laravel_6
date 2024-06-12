@@ -157,3 +157,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
     Route::post('users', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
 });
 
+
+

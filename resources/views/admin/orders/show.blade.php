@@ -17,13 +17,13 @@
             <h5 class="card-title">Order Items</h5>
             <ul>
                 @foreach ($order->items as $item)
-                    <li>{{ $item->product->name }} - Quantity: {{ $item->quantity }} - Price: €{{ number_format($item->price, 2) }}</li>
+                <li>{{ $item->product->name }} - Quantity: {{ $item->quantity }} - Price: €{{ number_format($item->price, 2) }}</li>
                 @endforeach
             </ul>
 
             <h5 class="card-title">Order Status</h5>
-            <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p> <!-- Display the current status -->
-
+            <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p> <!-- Display the current status 
+                                                                               disable status update 
             <h5 class="card-title">Update Status</h5>
             <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
                 @csrf
@@ -34,6 +34,7 @@
                     <option value="shipped" @if($order->status == 'shipped') selected @endif>Shipped</option>
                 </select>
             </form>
+            -->
         </div>
     </div>
 </div>

@@ -11,12 +11,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('first_name')->nullable(); // Ensure this can be null if no value is provided
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('address')->nullable();
             $table->string('country')->nullable();
             $table->decimal('total_price', 8, 2);
-            $table->enum('status', ['pending', 'completed', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'completed', 'shipped'])->default('pending');
             $table->timestamps();
         });
     }
@@ -26,4 +26,3 @@ return new class extends Migration
         Schema::dropIfExists('orders');
     }
 };
-

@@ -16,17 +16,21 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('items.product', 'user')->findOrFail($id);
+        $order = Order::with('user')->findOrFail($id);
         return view('admin.orders.show', compact('order'));
     }
 
     public function update(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+
+        // Validate that the status is one of the expected values
+        $request->validate([
+            'status' => 'required|in:pending,completed,shipped'
+        ]);
+
         $order->update(['status' => $request->status]);
+
         return redirect()->route('admin.orders.index')->with('success', 'Order status updated successfully!');
     }
-
-    
 }
-
