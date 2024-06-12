@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Contacts</h5>
-                    <p class="card-text">View and respond to contact inquiries.</p>
+                    <p class="card-text">View, delete and respond to contact inquiries.</p>
                     <a href="{{ route('admin.contact.index') }}" class="btn btn-primary">Go to Contacts</a>
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Orders</h5>
-                    <p class="card-text">View, update, and manage orders.</p>
+                    <p class="card-text">View, delete, update, and manage orders.</p>
                     <a href="{{ route('admin.orders.index') }}" class="btn btn-primary">Go to Orders</a>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Users</h5>
-                    <p class="card-text">Edit, delete, and manage users.</p>
+                    <p class="card-text">Create, edit, delete, and manage users.</p>
                     <a href="{{ route('admin.users.index') }}" class="btn btn-primary mb-3">Go to Users</a>
                 </div>
             </div>
