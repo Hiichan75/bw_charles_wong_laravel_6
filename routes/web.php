@@ -27,7 +27,7 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', function () {
     // If the user is authenticated, redirect to the welcome page
     if (Auth::check()) {
-        return view('welcome'); // Change 'welcome' to your authenticated user home page
+        return view('news'); // Change 'welcome' to your authenticated user home page
     }
     // Otherwise, redirect to the login page
     return redirect('/login');
@@ -91,8 +91,6 @@ Route::post('order/{productId}', [OrderController::class, 'store'])->name('order
 // Static about page
 Route::view('about', 'about')->name('about');
 
-// Repeated home route for authenticated users (duplicate)
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Admin-specific routes, prefixed with 'admin' and accessible only by admins
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
