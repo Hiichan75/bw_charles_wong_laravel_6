@@ -65,6 +65,12 @@ class UserController extends Controller
     public function updateAdminStatus(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $originalAdminEmail = 'admin@ehb.be'; // Use the original admin's email or another unique identifier
+
+        if ($user->email === $originalAdminEmail) {
+            return redirect()->route('admin.users.index')->with('error', 'You cannot change the admin status of the original admin.');
+        }
+
         $user->is_admin = $request->is_admin == 'yes' ? true : false;
         $user->save();
 
@@ -74,6 +80,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $originalAdminEmail = 'admin@ehb.be'; // Use the original admin's email or another unique identifier
+
+        if ($user->email === $originalAdminEmail) {
+            return redirect()->route('admin.users.index')->with('error', 'You cannot delete the original admin.');
+        }
 
         if (auth()->user()->id == $user->id) {
             return redirect()->route('admin.users.index')->withErrors(['error' => 'You cannot delete yourself!']);

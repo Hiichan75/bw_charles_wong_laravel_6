@@ -24,10 +24,17 @@
                     <form action="{{ route('admin.users.updateAdminStatus', $user->id) }}" method="POST">
                         @csrf
                         @method('PATCH')
-                        <select name="is_admin" onchange="this.form.submit()">
-                            <option value="no" {{ !$user->is_admin ? 'selected' : '' }}>No</option>
-                            <option value="yes" {{ $user->is_admin ? 'selected' : '' }}>Yes</option>
-                        </select>
+
+                        @if($user->email === 'admin@ehb.be')
+                            <select name="is_admin" disabled>
+                                <option value="yes" selected>Yes</option>
+                            </select>
+                        @else
+                            <select name="is_admin" onchange="this.form.submit()">
+                                <option value="no" {{ !$user->is_admin ? 'selected' : '' }}>No</option>
+                                <option value="yes" {{ $user->is_admin ? 'selected' : '' }}>Yes</option>
+                            </select>
+                        @endif
                     </form>
                 </td>
                 <td>
@@ -35,7 +42,11 @@
                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        @if($user->email === 'admin@ehb.be')
+                            <button type="submit" class="btn btn-danger btn-sm" disabled>Delete</button>
+                        @else
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        @endif
                     </form>
                 </td>
             </tr>
