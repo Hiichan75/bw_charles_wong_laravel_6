@@ -9,8 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    // Show profile
     public function show($id)
     {
+        // Check if the user exists
+        $user = User::find($id);
+        if (!$user) {
+            // If user doesn't exist, redirect to the authenticated user's profile with an error message
+            return redirect()->route('profile.show', Auth::id())->with('error', 'The requested user does not exist.');
+        }
+
         // Retrieve the user's profile or create it if it doesn't exist
         $profile = Profile::firstOrCreate(
             ['user_id' => $id],
@@ -20,11 +28,20 @@ class ProfileController extends Controller
                 'avatar' => null
             ]
         );
+
         return view('profile.show', compact('profile'));
     }
 
+    // Edit profile
     public function edit($id)
     {
+        // Check if the user exists
+        $user = User::find($id);
+        if (!$user) {
+            // If user doesn't exist, redirect to the authenticated user's profile with an error message
+            return redirect()->route('profile.show', Auth::id())->with('error', 'The requested user does not exist.');
+        }
+
         // Retrieve the user's profile or create it if it doesn't exist
         $profile = Profile::firstOrCreate(
             ['user_id' => $id],
@@ -34,9 +51,11 @@ class ProfileController extends Controller
                 'avatar' => null
             ]
         );
+
         return view('profile.edit', compact('profile'));
     }
 
+    // Update profile
     public function update(Request $request, $id)
     {
         // Validate the request data
@@ -50,9 +69,6 @@ class ProfileController extends Controller
         // Retrieve the profile or fail if it doesn't exist
         $profile = Profile::where('user_id', $id)->firstOrFail();
 
-        // Retrieve the user or fail if it doesn't exist
-        $user = User::findOrFail($id);
-
         // Handle avatar upload
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store('avatars', 'public');
@@ -65,11 +81,6 @@ class ProfileController extends Controller
             'birthday' => $request->birthday,
             'about_me' => $request->about_me,
             'avatar' => $profile->avatar
-        ]);
-
-        // Update the user's name
-        $user->update([
-            'name' => $request->username
         ]);
 
         // Redirect back to the profile show page with a success message
