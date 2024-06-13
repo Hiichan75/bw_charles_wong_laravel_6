@@ -25,9 +25,9 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Gamer Girl Bath water',
+                'name' => 'Gaming PC',
                 'description' => 'Description for Product 3',
-                'price' => 549.99,
+                'price' => 1549.99,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
