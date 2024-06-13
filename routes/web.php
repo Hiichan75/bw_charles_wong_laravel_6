@@ -27,7 +27,7 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', function () {
     // If the user is authenticated, redirect to the welcome page
     if (Auth::check()) {
-        return view('news'); // Change 'welcome' to your authenticated user home page
+        return view('home'); // Change 'welcome' to your authenticated user home page
     }
     // Otherwise, redirect to the login page
     return redirect('/login');
